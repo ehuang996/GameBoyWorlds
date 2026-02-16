@@ -44,7 +44,11 @@ from poke_worlds.emulation.pokemon.trackers import (
 )
 from poke_worlds.emulation.emulator import Emulator
 from poke_worlds.emulation.pokemon.emulators import PokemonEmulator
-from poke_worlds.emulation.legend_of_zelda.parsers import LegendOfZeldaParser
+from poke_worlds.emulation.legend_of_zelda.parsers import (
+    LegendOfZeldaLinksAwakeningParser,
+    LegendOfZeldaTheOracleOfAgesParser,
+    LegendOfZeldaTheOracleOfSeasonsParser,
+)
 
 _project_parameters = load_parameters()
 GAME_TO_GB_NAME = {
@@ -55,6 +59,8 @@ GAME_TO_GB_NAME = {
     "pokemon_fools_gold": "PokemonFoolsGold.gbc",
     "pokemon_prism": "PokemonPrism.gbc",
     "legend_of_zelda_links_awakening": "LegendOfZeldaLinksAwakening.gbc",
+    "legend_of_zelda_the_oracle_of_ages": "LegendOfZeldaTheOracleOfAges.gbc",
+    "legend_of_zelda_the_oracle_of_seasons": "LegendOfZeldaTheOracleOfSeasons.gbc"
     # "zelda_links_awakening": "ZeldaLinksAwakening.gb",
 }
 """ Expected save name for each game. Save the file to <storage_dir_from_config_file>/<game_name>_rom_data/<gb_name>"""
@@ -66,7 +72,10 @@ _STRONGEST_PARSERS: Dict[str, Type[StateParser]] = {
     "pokemon_starbeasts": PokemonStarBeastsStateParser,
     "pokemon_fools_gold": PokemonFoolsGoldStateParser,
     "pokemon_prism": PokemonPrismStateParser,
-    "legend_of_zelda_links_awakening": LegendOfZeldaParser,
+    "legend_of_zelda_links_awakening": LegendOfZeldaLinksAwakeningParser,
+    "legend_of_zelda_the_oracle_of_ages": LegendOfZeldaTheOracleOfAgesParser,
+    "legend_of_zelda_the_oracle_of_seasons": LegendOfZeldaTheOracleOfSeasonsParser,
+
 }
 """ Mapping of game names to their corresponding strongest StateParser classes. 
 Unless you have a very good reason, you should always use the STRONGEST possible parser for a given game. 
@@ -109,6 +118,8 @@ AVAILABLE_STATE_TRACKERS: Dict[str, Dict[str, Type[StateTracker]]] = {
         "default": PokemonOCRTracker,
     },
     "legend_of_zelda_links_awakening": {"default": StateTracker},
+    "legend_of_zelda_the_oracle_of_ages": {"default": StateTracker},
+    "legend_of_zelda_the_oracle_of_seasons": {"default": StateTracker},
 }
 """ Mapping of game names to their available StateTracker classes with string identifiers. """
 
@@ -132,6 +143,9 @@ AVAILABLE_EMULATORS: Dict[str, Dict[str, Type[Emulator]]] = {
         "default": PokemonEmulator,
     },
     "legend_of_zelda_links_awakening": {"default": Emulator},
+    "legend_of_zelda_the_oracle_of_ages": {"default": Emulator},
+    "legend_of_zelda_the_oracle_of_seasons": {"default": Emulator},
+
 }
 """ Mapping of game names to their available Emulator classes with string identifiers. """
 

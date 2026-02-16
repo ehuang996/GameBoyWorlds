@@ -81,6 +81,16 @@ AVAILABLE_ENVIRONMENTS: Dict[str, Dict[str, Type[Environment]]] = {
         "dummy": DummyEnvironment,
         "default": DummyEnvironment,
     },
+
+    "legend_of_zelda_the_oracle_of_ages": {
+        "dummy": DummyEnvironment,
+        "default": DummyEnvironment,
+    },
+
+    "legend_of_zelda_the_oracle_of_seasons": {
+        "dummy": DummyEnvironment,
+        "default": DummyEnvironment,
+    },
 }
 
 AVAILABLE_CONTROLLERS: Dict[str, Dict[str, Type[Controller]]] = {
@@ -103,6 +113,8 @@ AVAILABLE_CONTROLLERS: Dict[str, Dict[str, Type[Controller]]] = {
         "state_wise": PokemonStateWiseController,
     },
     "legend_of_zelda_links_awakening": {},
+    "legend_of_zelda_the_oracle_of_ages": {},
+    "legend_of_zelda_the_oracle_of_seasons": {},
 }
 
 for game in AVAILABLE_GAMES:
