@@ -278,8 +278,6 @@ class Emulator:
                 self._parameters,
             )
 
-        self._full_frame_writer = None
-        self._model_frame_writer = None
         self.reset_count = 0
         """ Number of times the environment has been reset. """
         self.step_count = 0
@@ -696,12 +694,6 @@ class Emulator:
         """
         Closes the video writer and stops recording video.
         """
-        if self._full_frame_writer is not None:
-            self._full_frame_writer.release()
-            self._full_frame_writer = None
-        if self._model_frame_writer is not None:
-            self._model_frame_writer.release()
-            self._model_frame_writer = None
         self.video_running = False
 
     def close(self) -> StateTracker:
