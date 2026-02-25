@@ -276,10 +276,6 @@ class VideoWriter:
         Args:
             frames (np.ndarray): A stack of frames to add to the video. Shape is [n_frames, height, width, channels].
         """
-
-        # frame_size = (current_frame.shape[1], current_frame.shape[0]) # Width, Height, should be equal to self.output_shape
-        # Create VideoWriter object
-        # breakpoint()
         button_image = self._button_images[pressed_button]
         button_size = 50
         button_offset = 0
@@ -288,10 +284,10 @@ class VideoWriter:
         button_image = cv2.resize(button_image, (button_size, button_size))
         alphas = button_image[:, :, 3] / 255.0
 
-        # breakpoint()
         for frame in frames:
             if self._reduce_resolution:
                 frame = self._get_reduced(frame)
+            # frame_size = (current_frame.shape[1], current_frame.shape[0], 1) # Width, Height, should be equal to self.output_shape
             # expand grayscale frame to 3 channels for video writing
             treated_frame = np.repeat(frame, 3, axis=2)
             treated_frame[
