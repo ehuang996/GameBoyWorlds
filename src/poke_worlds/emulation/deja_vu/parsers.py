@@ -35,7 +35,6 @@ from enum import Enum
 
 from pyboy import PyBoy
 
-import json
 import numpy as np
 from bidict import bidict
 
@@ -43,8 +42,8 @@ from bidict import bidict
 class AgentState(Enum):
     """
     0. FREE_ROAM: The agent is freely roaming the game world.
-    1. IN_DIALOGUE: The agent is currently in a dialogue state. (including reading signs, talking to NPCs, etc.)
-    2. IN_MENU: The agent is currently in a menu state. (including PC, Name Entry, Pokedex, etc.)
+    1. IN_DIALOGUE: The agent is currently in a dialogue state. (e.g. receiving clues, action feedback)
+    2. IN_MENU: The agent is currently in a menu state. (e.g. looking at items)
     """
 
     FREE_ROAM = 0
@@ -212,6 +211,38 @@ class DejaVu1StateParser(DejaVuStateParser):
 
         super().__init__(
             variant="deja_vu_1",
+            pyboy=pyboy,
+            parameters=parameters,
+            override_regions=self.REGIONS,
+            # override_multi_targets=self.MULTI_TARGET_REGIONS,
+        )
+
+    def __repr__(self):
+        return f"<DejaVuParser(variant={self.variant})>"
+    
+class DejaVu2StateParser(DejaVuStateParser):
+    """ Game state parser for Deja Vu II: The Casebooks of Ace Harding."""
+
+    REGIONS = []
+    """ Additional named screen regions specific to Deja Vu games."""
+
+    # MULTI_TARGET_REGIONS = []
+    """ Additional multi-target named screen regions specific to Deja Vu games."""
+
+    def __init__(self, pyboy, parameters):
+        override_regions = []
+        # override_multi_target_regions = []
+        
+        self.REGIONS = _get_proper_regions(
+            override_regions=override_regions, base_regions=self.REGIONS
+        )
+        # self.MULTI_TARGET_REGIONS = _get_proper_regions(
+        #     override_regions=override_multi_target_regions,
+        #     base_regions=self.MULTI_TARGET_REGIONS,
+        # )
+
+        super().__init__(
+            variant="deja_vu_2",
             pyboy=pyboy,
             parameters=parameters,
             override_regions=self.REGIONS,

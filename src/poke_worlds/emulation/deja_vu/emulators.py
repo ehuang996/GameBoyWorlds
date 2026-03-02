@@ -20,6 +20,8 @@ class DejaVuEmulator(Emulator):
     REQUIRED_STATE_TRACKER = CoreDejaVuTracker
     _MAXIMUM_DIALOGUE_PRESSES = 2000  # For now set a crazy high value
     """ Maximum number of times the agent will click B to get through a dialogue. """
+    _SKIP_DIALOGUE = False
+    """ Whether to auto skip dialogue by clicking B repeatedly until we are no longer in dialogue."""
 
     def step(self, action=None) -> Tuple[np.ndarray, bool]:
         """
@@ -38,7 +40,7 @@ class DejaVuEmulator(Emulator):
         current_frame = self.get_current_frame()
         
         all_next_frames = [frames]
-        if False:
+        if self._SKIP_DIALOGUE:
             # Auto-skip dialogue to accelerate game progression
             # This allows the agent to move through story elements faster
             # For Deja Vu, dialogue is critical to story progression and investigations, so we initialize the auto-skip action to false

@@ -21,7 +21,7 @@ class CoreDejaVuMetrics(MetricGroup):
     Deja Vu-specific core metrics.
 
     Reports:
-    - agent_state: The AgentState info. Is either Free Roam, In Dialogue, In Menu or In Puzzle.
+    - agent_state: The AgentState info. Is either Free Roam, In Dialogue or In Menu.
 
     Final Reports:
     - None
