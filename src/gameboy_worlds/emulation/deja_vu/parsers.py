@@ -2,11 +2,6 @@
 DejaVu I & II: The Casebooks of Ace Harding game state parser implementations.
 
 Deja Vu is a detective mystery game focused on investigation and puzzle-solving.
-The game mechanics are fundamentally different from Pokemon:
-- No battles or combat mechanics
-- Heavy emphasis on dialogue, evidence collection, and deduction
-- Menu-driven investigation system with case notes, evidence, and location management
-- Puzzle-solving segments where player must make logical deductions
 
 This parser provides visual-based state detection for:
 1. FREE_ROAM: Walking around investigation areas and locations
@@ -89,6 +84,8 @@ class DejaVuStateParser(StateParser, ABC):
     COMMON_MULTI_TARGET_REGIONS = [
         ("dialogue_box_area", 0, 74, 160, 55),
         ("menu_box_area", 0, 70, 160, 70),
+        ("action_bar_in_normal", 0, 113, 160, 15),
+        ("action_bar_in_menu", 0, 25, 160, 15),
     ]
     """
     List of common multi-target named screen regions for Deja Vu games.
@@ -96,17 +93,46 @@ class DejaVuStateParser(StateParser, ABC):
     Deja Vu has certain regions that can contain multiple important visual cues.
     - dialogue_box_area: The area where dialogue text appears. Can contain multiple targets such as clues
     - menu_box_area: The area where menu options appear. Can contain multiple targets such as items or actions.
+    - action_bar_in_normal: The upper area of the action bar in normal state.
+    - action_bar_in_menu: The upper area of the action bar in when menu activated.
     """
 
     COMMON_MULTI_TARGETS = {
         "dialogue_box_area": [
             "nothing_usual",
+            "opened_door",
+            "closed_door",
+        ],
+        "action_bar_in_normal": [
+            "no_action_selected",
+            "selected_watch_action",
+            "selected_take_action",
+            "selected_open_action",
+            "selected_close_action",
+        ],
+        "action_bar_in_menu": [
+            "no_action_selected",
+            "selected_watch_action",
+            "selected_take_action",
+            "selected_open_action",
+            "selected_close_action",
         ],
     }
     """
     Common multi-targets for Deja Vu game regions.
     - dialogue_box_area:
         - nothing_usual: Point at useless area.
+        - opened_door: Open the door in front of you.
+    - action_bar_in_normal:
+        - selected_watch_action: The "Watch" action is currently selected in the action bar.
+        - selected_take_action: The "Take" action is currently selected in the action bar.
+        - selected_open_action: The "Open" action is currently selected in the action bar.
+        - selected_close_action: The "Close" action is currently selected in the action bar.
+    - action_bar_in_menu:
+        - selected_watch_action: The "Watch" action is currently selected in the action bar.
+        - selected_take_action: The "Take" action is currently selected in the action bar.
+        - selected_open_action: The "Open" action is currently selected in the action bar.
+        - selected_close_action: The "Close" action is currently selected in the action bar.
     """
 
     def __init__(
@@ -119,9 +145,9 @@ class DejaVuStateParser(StateParser, ABC):
         override_multi_targets: Dict[str, List[str]] = {},
     ):
         """
-        Initializes the PokemonStateParser.
+        Initializes the DejaVuStateParser.
         Args:
-            variant (str): The variant of the Pokemon game.
+            variant (str): The variant of the Deja Vu game.
             pyboy (PyBoy): The PyBoy emulator instance.
             parameters (dict): Configuration parameters for the emulator.
             additional_named_screen_region_details (List[Tuple[str, int, int, int, int]]): Parameters associated with additional named screen regions to include.
@@ -136,11 +162,11 @@ class DejaVuStateParser(StateParser, ABC):
         self.variant = variant
         if f"{variant}_rom_data_path" not in parameters:
             log_error(
-                f"ROM data path not found for variant: {variant}. Add {variant}_rom_data_path to the config files. See configs/pokemon_red_vars.yaml for an example",
+                f"ROM data path not found for variant: {variant}. Add {variant}_rom_data_path to the config files. See configs/deja_vu_vars.yaml for an example",
                 parameters,
             )
         self.rom_data_path = parameters[f"{variant}_rom_data_path"]
-        """ Path to the ROM data directory for the specific Pokemon variant."""
+        """ Path to the ROM data directory for the specific Deja Vu variant."""
         captures_dir = self.rom_data_path + "/captures/"
         named_screen_regions = []
         for region_name, x, y, w, h in regions:
@@ -250,6 +276,7 @@ class DejaVu1StateParser(DejaVuStateParser):
         override_multi_targets = {
             "dialogue_box_area": [
                 "took_coat",
+                "took_gun",
             ],
         }
 

@@ -10,6 +10,9 @@ from gameboy_worlds.emulation.deja_vu.parsers import (
 from gameboy_worlds.emulation.deja_vu.trackers import (
     DejaVuCoatTestTracker,
     DejaVuOCRTracker,
+    DejaVuTakeGunTestTracker,
+    DejaVuOpenDoorTestTracker,
+    DejaVuCloseDoorTestTracker,
 )
 from gameboy_worlds.emulation.deja_vu.emulators import DejaVuEmulator
 
@@ -34,6 +37,9 @@ AVAILABLE_STATE_TRACKERS: Dict[str, Dict[str, Type[StateTracker]]] = {
     "deja_vu_1": {
         "default": DejaVuOCRTracker,
         "take_coat_test": DejaVuCoatTestTracker,
+        "take_gun_test": DejaVuTakeGunTestTracker,
+        "open_door_test": DejaVuOpenDoorTestTracker,
+        "close_door_test": DejaVuCloseDoorTestTracker,
     },
     "deja_vu_2": {"default": DejaVuOCRTracker},
 }
