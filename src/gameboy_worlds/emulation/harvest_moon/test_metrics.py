@@ -20,6 +20,12 @@ class CowBarnTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
 
     _TERMINATION_NAMED_REGION = "screen_bottom"
     _TERMINATION_TARGET_NAME = "cow_barn_entrance"
+
+class PickupWaterCanTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_top"
+    _TERMINATION_TARGET_NAME = "pick_up_watercan"
     
 class OutsideCowBarnSubgoal(AnyRegionMatchSubGoal):
     NAME = "outside_cow_barn"
@@ -45,4 +51,17 @@ class OutsideChickenCoopSubgoal(AnyRegionMatchSubGoal):
         "outside_chicken_coop_left",
         "outside_chicken_coop_right",
         "outside_chicken_coop_up",
+    ]
+
+class NextToWaterCanSubgoal(AnyRegionMatchSubGoal):
+    NAME = "next_to_water_can"
+    _NAMED_REGIONS = [
+        "item_watercan_above",
+        "item_watercan_right",
+        "item_watercan_below",
+    ]
+    _TARGET_NAMES = [
+        "pickup_watercan_down",
+        "pickup_watercan_left",
+        "pickup_watercan_up",
     ]
