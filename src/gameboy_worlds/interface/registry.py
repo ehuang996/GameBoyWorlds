@@ -26,18 +26,22 @@ from gameboy_worlds.interface.pokemon import registry as pokemon_registry
 from gameboy_worlds.interface.legend_of_zelda import registry as zelda_registry
 from gameboy_worlds.interface.sword_of_hope import registry as sword_of_hope_registry
 from gameboy_worlds.interface.deja_vu import registry as deja_vu_registry
+from gameboy_worlds.interface.hamtaro import registry as hamtaro_registry
 from gameboy_worlds.interface.harvest_moon import registry as harvest_moon_registry
 from gameboy_worlds.interface.runes_of_virtue_1 import registry as runes_of_virtue_1_registry
+from gameboy_worlds.interface.harrypotter import registry as harrypotter_registry
 
 _project_parameters = load_parameters()
 
 _game_registries = [
+    hamtaro_registry,
     pokemon_registry,
     zelda_registry,
     sword_of_hope_registry,
     deja_vu_registry,
     harvest_moon_registry,
     runes_of_virtue_1_registry,
+    harrypotter_registry,
 ]
 
 AVAILABLE_ENVIRONMENTS: Dict[str, Dict[str, Type[Environment]]] = {}

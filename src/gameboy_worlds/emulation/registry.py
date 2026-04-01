@@ -25,19 +25,23 @@ from gameboy_worlds.emulation.pokemon import registry as pokemon_registry
 from gameboy_worlds.emulation.legend_of_zelda import (
     registry as legend_of_zelda_registry,
 )
+from gameboy_worlds.emulation.hamtaro import registry as hamtaro_registry
 from gameboy_worlds.emulation.sword_of_hope import registry as sword_of_hope_registry
 from gameboy_worlds.emulation.deja_vu import registry as deja_vu_registry
 from gameboy_worlds.emulation.harvest_moon import registry as harvest_moon_registry
 from gameboy_worlds.emulation.runes_of_virtue_1 import registry as runes_of_virtue_1_registry
+from gameboy_worlds.emulation.harrypotter import registry as harrypotter_registry
 
 
 _game_registries = [
+    hamtaro_registry,
     pokemon_registry,
     legend_of_zelda_registry,
     sword_of_hope_registry,
     deja_vu_registry,
     harvest_moon_registry,
     runes_of_virtue_1_registry,
+    harrypotter_registry,
 ]
 
 _project_parameters = load_parameters()
