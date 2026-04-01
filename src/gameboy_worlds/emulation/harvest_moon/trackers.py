@@ -8,6 +8,8 @@ from gameboy_worlds.emulation.harvest_moon.test_metrics import (
     OutsideCowBarnSubgoal,
     ChickenCoopTerminateMetric,
     OutsideChickenCoopSubgoal,
+    PickupWaterCanTerminateMetric,
+    NextToWaterCanSubgoal,
 )
 from gameboy_worlds.utils import log_info
 from gameboy_worlds.emulation.tracker import (
@@ -79,3 +81,11 @@ class HarvestMoonChickenCoopTracker(HarvestMoonTestTracker):
 
     TERMINATION_TRUNCATION_METRIC = ChickenCoopTerminateMetric
     SUBGOAL_METRIC = make_subgoal_metric_class([OutsideChickenCoopSubgoal])
+
+class HarvestMoonPickupWaterCanTracker(HarvestMoonTestTracker):
+    """
+    Inherit this class and set TERMINATION_TRUNCATION_METRIC to create a TestTracker for Harvest Moon games.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = PickupWaterCanTerminateMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([NextToWaterCanSubgoal])
