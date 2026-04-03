@@ -5,6 +5,7 @@ from gameboy_worlds.emulation.parser import StateParser
 from gameboy_worlds.emulation.tracker import (
     RegionMatchTerminationMetric,
     RegionMatchTerminationOnlyMetric,
+    SingleRegionMatchSubGoal,
     SubGoal,
     SubGoalMetric,
     TerminationMetric,
@@ -122,3 +123,23 @@ class InGoodsMenuSubGoal(AnyRegionMatchSubGoal):
     NAME = "in_goods_menu"
     _NAMED_REGIONS = ["menu_title_area"]
     _TARGET_NAMES = ["goods_menu"]
+
+class PointAtCoatSubGoal(SingleRegionMatchSubGoal):
+    NAME = "pointed_at_coat"
+    _NAMED_REGION = "selected_coat_item"
+
+# class PointAtCoatSubGoal(SubGoal):
+#     NAME = "pointed_at_coat"
+
+#     def _check_completed(self, frame: np.ndarray, parser: StateParser) -> bool:
+#         return parser.named_region_matches_target(frame, "selected_coat_item")
+
+class PointAtWalletSubGoal(SingleRegionMatchSubGoal):
+    NAME = "pointed_at_wallet"
+    _NAMED_REGION = "selected_wallet_item"
+
+# class PointAtWalletSubGoal(SubGoal):
+#     NAME = "pointed_at_wallet"
+
+#     def _check_completed(self, frame: np.ndarray, parser: StateParser) -> bool:
+#         return parser.named_region_matches_target(frame, "selected_wallet_item")

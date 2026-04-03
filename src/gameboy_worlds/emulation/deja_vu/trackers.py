@@ -13,6 +13,8 @@ from gameboy_worlds.emulation.deja_vu.base_metrics import (
 )
 # import metrics for the test trackers
 from gameboy_worlds.emulation.deja_vu.test_metrics import (
+    ClosedPocketTerminationMetric,
+    ClosedWalletTerminationMetric,
     OpenDoorTerminationMetric,
     OpenPocketTerminationMetric,
     OpenWalletTerminationMetric,
@@ -27,6 +29,12 @@ from gameboy_worlds.emulation.deja_vu.test_metrics import (
     SelectedTakeActionInNormalSubGoal,
     SelectedCloseActionInNormalSubGoal,
     NoActionSelectedInNormalSubGoal,
+    SelectedCloseActionInMenuSubGoal,
+    InCoatPocketMenuSubGoal,
+    InWalletMenuSubGoal,
+    PointAtCoatSubGoal,
+    PointAtWalletSubGoal,
+    InGoodsMenuSubGoal,
 )
 
 
@@ -123,3 +131,27 @@ class DejaVuOpenWalletTestTracker(DejaVuTestTracker):
 
     TERMINATION_TRUNCATION_METRIC = OpenWalletTerminationMetric
     SUBGOAL_METRIC = make_subgoal_metric_class([SelectedOpenActionInMenuSubGoal])
+
+class DejaVuClosePocketTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent closes the pocket.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = ClosedPocketTerminationMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([
+        InGoodsMenuSubGoal,
+        SelectedCloseActionInMenuSubGoal,
+        PointAtCoatSubGoal,
+    ])
+
+class DejaVuCloseWalletTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent closes the wallet.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = ClosedWalletTerminationMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([
+        InCoatPocketMenuSubGoal,
+        SelectedCloseActionInMenuSubGoal,
+        PointAtWalletSubGoal,
+    ])

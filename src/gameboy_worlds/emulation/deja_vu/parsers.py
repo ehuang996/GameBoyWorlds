@@ -280,7 +280,10 @@ class DejaVu1StateParser(DejaVuStateParser):
     """Game state parser for Deja Vu I: The Casebooks of Ace Harding."""
 
     def __init__(self, pyboy, parameters):
-        override_regions = []
+        override_regions = [
+            ("selected_coat_item", 0, 79, 160, 8),
+            ("selected_wallet_item", 0, 120, 160, 8),
+        ]
         override_multi_target_regions = []
         override_multi_targets = {
             "dialogue_box_area": [

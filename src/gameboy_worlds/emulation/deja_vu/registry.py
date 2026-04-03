@@ -15,9 +15,8 @@ from gameboy_worlds.emulation.deja_vu.trackers import (
     DejaVuCloseDoorTestTracker,
     DejaVuOpenPocketTestTracker,
     DejaVuOpenWalletTestTracker,
-    DejaVuTakeGunTestTracker,
-    DejaVuOpenDoorTestTracker,
-    DejaVuCloseDoorTestTracker,
+    DejaVuClosePocketTestTracker,
+    DejaVuCloseWalletTestTracker,
 )
 from gameboy_worlds.emulation.deja_vu.emulators import DejaVuEmulator
 
@@ -47,7 +46,8 @@ AVAILABLE_STATE_TRACKERS: Dict[str, Dict[str, Type[StateTracker]]] = {
         "close_door_test": DejaVuCloseDoorTestTracker,
         "open_pocket_test": DejaVuOpenPocketTestTracker,
         "open_wallet_test": DejaVuOpenWalletTestTracker,
-
+        "close_pocket_test": DejaVuClosePocketTestTracker,
+        "close_wallet_test": DejaVuCloseWalletTestTracker,
     },
     "deja_vu_2": {
         "default": DejaVuOCRTracker
