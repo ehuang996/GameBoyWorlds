@@ -14,6 +14,19 @@ class ChickenCoopTerminateMetric(RegionMatchTerminationMetric, TerminationMetric
 
     _TERMINATION_NAMED_REGION = "screen_bottom"
     _TERMINATION_TARGET_NAME = "chicken_coop_entrance"
+
+class OutsideChickenCoopSubgoal(AnyRegionMatchSubGoal):
+    NAME = "outside_chicken_coop"
+    _NAMED_REGIONS = [
+        "screen_middle",
+        "screen_middle",
+        "screen_middle",
+    ]
+    _TARGET_NAMES = [
+        "outside_chicken_coop_left",
+        "outside_chicken_coop_right",
+        "outside_chicken_coop_up",
+    ]
     
 class CowBarnTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
     REQUIRED_PARSER = BaseHarvestMoonStateParser
@@ -21,30 +34,6 @@ class CowBarnTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
     _TERMINATION_NAMED_REGION = "screen_bottom"
     _TERMINATION_TARGET_NAME = "cow_barn_entrance"
 
-class PickupWaterCanTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
-    REQUIRED_PARSER = BaseHarvestMoonStateParser
-
-    _TERMINATION_NAMED_REGION = "dialogue_box_top"
-    _TERMINATION_TARGET_NAME = "pick_up_watercan"
-
-class GoToSleepTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
-    REQUIRED_PARSER = BaseHarvestMoonStateParser
-
-    _TERMINATION_NAMED_REGION = "item_bed"
-    _TERMINATION_TARGET_NAME = "sleep_in_bed"
-    
-class FeedSpiritTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
-    REQUIRED_PARSER = BaseHarvestMoonStateParser
-
-    _TERMINATION_NAMED_REGION = "dialogue_box_bottom"
-    _TERMINATION_TARGET_NAME = "fed_spirit"
-
-class WaterTurnipTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
-    REQUIRED_PARSER = BaseHarvestMoonStateParser
-
-    _TERMINATION_NAMED_REGION = "turnip_center"
-    _TERMINATION_TARGET_NAME = "finish_watering"
-    
 class OutsideCowBarnSubgoal(AnyRegionMatchSubGoal):
     NAME = "outside_cow_barn"
     _NAMED_REGIONS = [
@@ -58,18 +47,11 @@ class OutsideCowBarnSubgoal(AnyRegionMatchSubGoal):
         "outside_cow_barn_up",
     ]
     
-class OutsideChickenCoopSubgoal(AnyRegionMatchSubGoal):
-    NAME = "outside_chicken_coop"
-    _NAMED_REGIONS = [
-        "screen_middle",
-        "screen_middle",
-        "screen_middle",
-    ]
-    _TARGET_NAMES = [
-        "outside_chicken_coop_left",
-        "outside_chicken_coop_right",
-        "outside_chicken_coop_up",
-    ]
+class PickupWaterCanTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_top"
+    _TERMINATION_TARGET_NAME = "pick_up_watercan"
 
 class NextToWaterCanSubgoal(AnyRegionMatchSubGoal):
     NAME = "next_to_water_can"
@@ -83,7 +65,13 @@ class NextToWaterCanSubgoal(AnyRegionMatchSubGoal):
         "pickup_watercan_left",
         "pickup_watercan_up",
     ]
+    
+class GoToSleepTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
 
+    _TERMINATION_NAMED_REGION = "item_bed"
+    _TERMINATION_TARGET_NAME = "sleep_in_bed"
+    
 class SleepOptionSubgoal(AnyRegionMatchSubGoal):
     NAME = "sleep_option"
     _NAMED_REGIONS = [
@@ -93,6 +81,12 @@ class SleepOptionSubgoal(AnyRegionMatchSubGoal):
         "choose_yes_for_sleep",
     ]
     
+class FeedSpiritTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_bottom"
+    _TERMINATION_TARGET_NAME = "fed_spirit"
+
 class NextToSpiritSubgoal(AnyRegionMatchSubGoal):
     NAME = "next_to_spirit"
     _NAMED_REGIONS = [
@@ -106,6 +100,12 @@ class NextToSpiritSubgoal(AnyRegionMatchSubGoal):
         "feed_spirit_down",
     ]
 
+class WaterTurnipTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "turnip_center"
+    _TERMINATION_TARGET_NAME = "finish_watering"
+
 class NextToTurnipSubgoal(AnyRegionMatchSubGoal):
     NAME = "next_to_turnip"
     _NAMED_REGIONS = [
@@ -113,4 +113,61 @@ class NextToTurnipSubgoal(AnyRegionMatchSubGoal):
     ]
     _TARGET_NAMES = [
         "ready_to_water",
+    ]
+    
+class BuyPotatoSeedsTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "screen_bottom_half"
+    _TERMINATION_TARGET_NAME = "bought_potato_seeds"
+    
+class ShopForSeedsSubgoal(AnyRegionMatchSubGoal):
+    NAME = "shop_for_seeds"
+    _NAMED_REGIONS = [
+        "center_sign",
+    ]
+    _TARGET_NAMES = [
+        "outside_flower_shop",
+    ]
+
+class SelectPotatoSeedsSubgoal(AnyRegionMatchSubGoal):
+    NAME = "selected_potato_seeds"
+    _NAMED_REGIONS = [
+        "dialogue_box_bottom",
+    ]
+    _TARGET_NAMES = [
+        "select_potato_seeds",
+    ]
+    
+class SelectPotatoSeedsOnePortionSubgoal(AnyRegionMatchSubGoal):
+    NAME = "select_potato_seeds_one_portion"
+    _NAMED_REGIONS = [
+        "dialogue_box_bottom",
+    ]
+    _TARGET_NAMES = [
+        "select_potato_seeds_portion",
+    ]
+    
+class BuyTurnipSeedsTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BaseHarvestMoonStateParser
+
+    _TERMINATION_NAMED_REGION = "screen_bottom_half"
+    _TERMINATION_TARGET_NAME = "bought_turnip_seeds"
+    
+class SelectTurnipSeedsSubgoal(AnyRegionMatchSubGoal):
+    NAME = "selected_turnip_seeds"
+    _NAMED_REGIONS = [
+        "dialogue_box_bottom",
+    ]
+    _TARGET_NAMES = [
+        "select_turnip_seeds",
+    ]
+    
+class SelectTurnipSeedsOnePortionSubgoal(AnyRegionMatchSubGoal):
+    NAME = "select_turnip_seeds_two_portion"
+    _NAMED_REGIONS = [
+        "dialogue_box_bottom",
+    ]
+    _TARGET_NAMES = [
+        "select_turnip_seeds_portion",
     ]

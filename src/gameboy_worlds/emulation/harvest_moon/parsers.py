@@ -230,6 +230,8 @@ class HarvestMoon1Parser(BaseHarvestMoonStateParser):
             ("item_spirit_above", 70, 50, 15, 50),
             ("turnip_center", 70, 90, 20, 20),
             ("turnip_top", 70, 70, 20, 35),
+            ("center_sign", 55, 65, 50, 15),
+            ("screen_bottom_half", 0, 75, 160, 65),
         ]
         
         override_multi_targets = {
@@ -244,6 +246,10 @@ class HarvestMoon1Parser(BaseHarvestMoonStateParser):
             "dialogue_box_bottom":[
                 "choose_yes_for_sleep",
                 "fed_spirit",
+                "select_potato_seeds",
+                "select_potato_seeds_portion",
+                "select_turnip_seeds",
+                "select_turnip_seeds_portion",
             ],
             "item_bed":[
                 "sleep_in_bed",
@@ -274,6 +280,13 @@ class HarvestMoon1Parser(BaseHarvestMoonStateParser):
             ],
             "turnip_top":[
                 "ready_to_water",
+            ],
+            "center_sign":[
+                "outside_flower_shop",
+            ],
+            "screen_bottom_half":[
+                "bought_potato_seeds",                
+                "bought_turnip_seeds",
             ]
         }
 

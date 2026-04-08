@@ -16,6 +16,13 @@ from gameboy_worlds.emulation.harvest_moon.test_metrics import (
     NextToSpiritSubgoal,
     WaterTurnipTerminateMetric,
     NextToTurnipSubgoal,
+    BuyPotatoSeedsTerminateMetric,
+    ShopForSeedsSubgoal,
+    SelectPotatoSeedsSubgoal,
+    SelectPotatoSeedsOnePortionSubgoal,
+    BuyTurnipSeedsTerminateMetric,
+    SelectTurnipSeedsSubgoal,
+    SelectTurnipSeedsOnePortionSubgoal,
 )
 from gameboy_worlds.utils import log_info
 from gameboy_worlds.emulation.tracker import (
@@ -119,6 +126,23 @@ class HarvestMoonWaterTurnipTracker(HarvestMoonTestTracker):
 
     TERMINATION_TRUNCATION_METRIC = WaterTurnipTerminateMetric
     SUBGOAL_METRIC = make_subgoal_metric_class([NextToTurnipSubgoal])
+
+class HarvestMoonBuyPotatoSeedsTracker(HarvestMoonTestTracker):
+    """
+    Inherit this class and set TERMINATION_TRUNCATION_METRIC to create a TestTracker for Harvest Moon games.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = BuyPotatoSeedsTerminateMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([ShopForSeedsSubgoal, SelectPotatoSeedsSubgoal, SelectPotatoSeedsOnePortionSubgoal])
+
+class HarvestMoonBuyTurnipSeedsTracker(HarvestMoonTestTracker):
+    """
+    Inherit this class and set TERMINATION_TRUNCATION_METRIC to create a TestTracker for Harvest Moon games.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = BuyTurnipSeedsTerminateMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([ShopForSeedsSubgoal, SelectTurnipSeedsSubgoal, SelectTurnipSeedsOnePortionSubgoal])
+
 # class HarvestMoonCleanRockTracker(HarvestMoonTestTracker):
 #     """
 #     Inherit this class and set TERMINATION_TRUNCATION_METRIC to create a TestTracker for Harvest Moon games.
