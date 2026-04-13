@@ -5,7 +5,15 @@ from gameboy_worlds.emulation.emulator import Emulator
 from gameboy_worlds.emulation.runes_of_virtue_1.parsers import RunesOfVirtue1Parser
 from gameboy_worlds.emulation.runes_of_virtue_1.trackers import (
     CoreRunesOfVirtue1Tracker,
+    RunesOfVirtue1CaveOfDeceitTestTracker,
+    RunesOfVirtue1ChucklesDialogTestTracker,
+    RunesOfVirtue1DeathScreenTestTracker,
+    RunesOfVirtue1GnuGnu1DialogTestTracker,
+    RunesOfVirtue1GnuGnu2DialogTestTracker,
+    RunesOfVirtue1KingDialogTestTracker,
     RunesOfVirtue1OpenMenuTestTracker,
+    RunesOfVirtue1SherryDialogTestTracker,
+    RunesOfVirtue1TelescopeViewTestTracker,
 )
 
 GAME_TO_GB_NAME = {
@@ -22,6 +30,14 @@ AVAILABLE_STATE_TRACKERS: Dict[str, Dict[str, Type[StateTracker]]] = {
     "runes_of_virtue_1": {
         "default": CoreRunesOfVirtue1Tracker,
         "open_menu_test": RunesOfVirtue1OpenMenuTestTracker,
+        "king_dialog_test": RunesOfVirtue1KingDialogTestTracker,
+        "chuckles_dialog_test": RunesOfVirtue1ChucklesDialogTestTracker,
+        "gnu_gnu_1_dialog_test": RunesOfVirtue1GnuGnu1DialogTestTracker,
+        "gnu_gnu_2_dialog_test": RunesOfVirtue1GnuGnu2DialogTestTracker,
+        "death_screen_test": RunesOfVirtue1DeathScreenTestTracker,
+        "cave_of_deceit_test": RunesOfVirtue1CaveOfDeceitTestTracker,
+        "telescope_view_test": RunesOfVirtue1TelescopeViewTestTracker,
+        "sherry_dialog_test": RunesOfVirtue1SherryDialogTestTracker,
     },
 }
 """ Mapping of game names to their available StateTracker classes with string identifiers. """

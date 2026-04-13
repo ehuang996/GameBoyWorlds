@@ -19,6 +19,14 @@ class RunesOfVirtue1Parser(StateParser):
 
     REGIONS = [
         ("menu_indicator", 20, 30, 40, 20),
+        ("king_dialog_indicator", 5, 100, 115, 40),
+        ("chuckles_dialog_indicator", 5, 90, 115, 40),
+        ("gnu_gnu_1_dialog_indicator", 5, 90, 115, 40),
+        ("gnu_gnu_2_dialog_indicator", 5, 90, 115, 40),
+        ("death_screen_indicator", 60, 100, 30, 30),
+        ("cave_of_deceit_indicator", 0, 0, 100, 70),
+        ("telescope_view_indicator", 40, 40, 80, 60),
+        ("sherry_dialog_indicator", 5, 90, 115, 40),
     ]
 
     def __init__(self, pyboy, parameters):
