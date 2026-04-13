@@ -13,10 +13,15 @@ from gameboy_worlds.emulation.deja_vu.base_metrics import (
 )
 # import metrics for the test trackers
 from gameboy_worlds.emulation.deja_vu.test_metrics import (
+    CheckedCoatTerminationMetric,
+    CheckedGunTerminationMetric,
     ClosedPocketTerminationMetric,
     ClosedWalletTerminationMetric,
+    EnterCellarTerminationMetric,
+    HitBottleTerminationMetric,
     OpenDoorTerminationMetric,
     OpenPocketTerminationMetric,
+    OpenSpigotTerminationMetric,
     OpenWalletTerminationMetric,
     TakeCoatTerminationMetric,
     TakeGunTerminationMetric,
@@ -35,6 +40,9 @@ from gameboy_worlds.emulation.deja_vu.test_metrics import (
     PointAtCoatSubGoal,
     PointAtWalletSubGoal,
     InGoodsMenuSubGoal,
+    SelectedHitActionInNormalSubGoal,
+    SockoOnScreenSubGoal,
+    OpenedCellarDoorOnScreenSubGoal,
 )
 
 
@@ -155,3 +163,46 @@ class DejaVuCloseWalletTestTracker(DejaVuTestTracker):
         SelectedCloseActionInMenuSubGoal,
         PointAtWalletSubGoal,
     ])
+
+class DejaVuCheckedCoatTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent checks the coat.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = CheckedCoatTerminationMetric
+    SUBGOAL_METRIC = DummySubGoalMetric
+
+class DejaVuCheckedGunTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent checks the gun.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = CheckedGunTerminationMetric
+    SUBGOAL_METRIC = DummySubGoalMetric
+
+class DejaVuOpenSpigotTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent opens the spigot.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = OpenSpigotTerminationMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([SelectedOpenActionInNormalSubGoal])
+
+class DejaVuHitBottleTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent hits the bottle.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = HitBottleTerminationMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([
+        SelectedHitActionInNormalSubGoal,
+        SockoOnScreenSubGoal,
+    ])
+
+class DejaVuEnterCellarTestTracker(DejaVuTestTracker):
+    """
+    A TestTracker for Deja Vu games that terminates when the agent enters the cellar.
+    """
+
+    TERMINATION_TRUNCATION_METRIC = EnterCellarTerminationMetric
+    SUBGOAL_METRIC = make_subgoal_metric_class([OpenedCellarDoorOnScreenSubGoal])

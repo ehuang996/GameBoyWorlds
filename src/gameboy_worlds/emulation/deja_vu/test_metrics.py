@@ -67,8 +67,39 @@ class ClosedWalletTerminationMetric(RegionMatchTerminationOnlyMetric):
     _TERMINATION_NAMED_REGION = "dialogue_box_area"
     _TERMINATION_TARGET_NAME = "closed_wallet"
 
+class CheckedCoatTerminationMetric(RegionMatchTerminationOnlyMetric):
+    REQUIRED_PARSER = DejaVu1StateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_area"
+    _TERMINATION_TARGET_NAME = "checked_coat"
+
+class CheckedGunTerminationMetric(RegionMatchTerminationOnlyMetric):
+    REQUIRED_PARSER = DejaVu1StateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_area"
+    _TERMINATION_TARGET_NAME = "checked_gun"
+
+class OpenSpigotTerminationMetric(RegionMatchTerminationOnlyMetric):
+    REQUIRED_PARSER = DejaVu1StateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_area"
+    _TERMINATION_TARGET_NAME = "opened_spigot"
+
+class HitBottleTerminationMetric(RegionMatchTerminationOnlyMetric):
+    REQUIRED_PARSER = DejaVu1StateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_area"
+    _TERMINATION_TARGET_NAME = "hit_bottle"
+
+class EnterCellarTerminationMetric(RegionMatchTerminationOnlyMetric):
+    REQUIRED_PARSER = DejaVu1StateParser
+
+    _TERMINATION_NAMED_REGION = "dialogue_box_area"
+    _TERMINATION_TARGET_NAME = "entered_cellar"
+
 
 # subgoal classes
+# subgoal classes with multiple region match requirements
 class SelectedTakeActionInNormalSubGoal(AnyRegionMatchSubGoal):
     NAME = "selected_take_action"
     _NAMED_REGIONS = ["action_bar_in_normal"]
@@ -83,6 +114,11 @@ class SelectedCloseActionInNormalSubGoal(AnyRegionMatchSubGoal):
     NAME = "selected_close_action"
     _NAMED_REGIONS = ["action_bar_in_normal"]
     _TARGET_NAMES = ["selected_close_action"]
+
+class SelectedHitActionInNormalSubGoal(AnyRegionMatchSubGoal):
+    NAME = "selected_hit_action_in_normal"
+    _NAMED_REGIONS = ["action_bar_in_normal"]
+    _TARGET_NAMES = ["selected_hit_action"]
 
 class NoActionSelectedInNormalSubGoal(AnyRegionMatchSubGoal):
     NAME = "no_action_selected"
@@ -124,22 +160,21 @@ class InGoodsMenuSubGoal(AnyRegionMatchSubGoal):
     _NAMED_REGIONS = ["menu_title_area"]
     _TARGET_NAMES = ["goods_menu"]
 
+class SockoOnScreenSubGoal(AnyRegionMatchSubGoal):
+    NAME = "socko_on_screen"
+    _NAMED_REGIONS = ["game_screen_area"]
+    _TARGET_NAMES = ["socko_on_screen"]
+
+class OpenedCellarDoorOnScreenSubGoal(AnyRegionMatchSubGoal):
+    NAME = "opened_cellar_door_on_screen"
+    _NAMED_REGIONS = ["game_screen_area"]
+    _TARGET_NAMES = ["opened_cellar_door"]
+
+# subgoal classes with single region match requirement
 class PointAtCoatSubGoal(SingleRegionMatchSubGoal):
     NAME = "pointed_at_coat"
     _NAMED_REGION = "selected_coat_item"
 
-# class PointAtCoatSubGoal(SubGoal):
-#     NAME = "pointed_at_coat"
-
-#     def _check_completed(self, frame: np.ndarray, parser: StateParser) -> bool:
-#         return parser.named_region_matches_target(frame, "selected_coat_item")
-
 class PointAtWalletSubGoal(SingleRegionMatchSubGoal):
     NAME = "pointed_at_wallet"
     _NAMED_REGION = "selected_wallet_item"
-
-# class PointAtWalletSubGoal(SubGoal):
-#     NAME = "pointed_at_wallet"
-
-#     def _check_completed(self, frame: np.ndarray, parser: StateParser) -> bool:
-#         return parser.named_region_matches_target(frame, "selected_wallet_item")
