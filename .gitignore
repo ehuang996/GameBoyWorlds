@@ -203,5 +203,3 @@ tmp*
 .claude/
 CLAUDE.md
 README_pipeline.md
-benchmark_tests/tasks.csv
-configs/gameboy_vars.yaml
