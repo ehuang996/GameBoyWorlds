@@ -822,9 +822,6 @@ class Emulator:
         while True:
             self._parameters = load_parameters()
             if not self._parameters["gameboy_dev_play_stop"]:
-                speed = self._parameters.get("gameboy_headed_emulation_speed", 1)
-                if speed is not None and str(speed).strip().lower() not in ("none", ""):
-                    self._pyboy.set_emulation_speed(int(speed))
                 self._pyboy.tick(1, True)
                 self.state_tracker.step()
             else:
