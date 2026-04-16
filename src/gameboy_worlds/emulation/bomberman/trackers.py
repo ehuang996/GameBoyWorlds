@@ -21,7 +21,7 @@ from gameboy_worlds.emulation.bomberman.test_metrics import (
     DialogueActiveTerminateMetric,
     EnterCampTerminateMetric,
     FieldZoneTerminateMetric,
-    ForestAreaIntroTerminateMetric,
+    AreaIntroTerminateMetric,
     ForestZoneTerminateMetric,
     HudBombCountChangedTerminateMetric,
     HudBottomRightChangedTerminateMetric,
@@ -33,7 +33,6 @@ from gameboy_worlds.emulation.bomberman.test_metrics import (
     JumpRankingTerminateMetric,
     JumpResultsTerminateMetric,
     NpcDialogueTerminateMetric,
-    OceanAreaIntroTerminateMetric,
     PauseActiveTerminateMetric,
     PauseMenuOpenTerminateMetric,
     PitchAreaTerminateMetric,
@@ -132,11 +131,11 @@ class BombermanPocketPauseMenuTestTracker(BombermanPocketBaseTestTracker):
 
 
 class BombermanPocketForestAreaIntroTestTracker(BombermanPocketBaseTestTracker):
-    TERMINATION_TRUNCATION_METRIC = ForestAreaIntroTerminateMetric
+    TERMINATION_TRUNCATION_METRIC = AreaIntroTerminateMetric
 
 
 class BombermanPocketOceanAreaIntroTestTracker(BombermanPocketBaseTestTracker):
-    TERMINATION_TRUNCATION_METRIC = OceanAreaIntroTerminateMetric
+    TERMINATION_TRUNCATION_METRIC = AreaIntroTerminateMetric
 
 
 class BombermanPocketWorldClearTestTracker(BombermanPocketBaseTestTracker):

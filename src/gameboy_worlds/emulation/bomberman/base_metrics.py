@@ -84,7 +84,7 @@ class BombermanPocketOCRMetric(OCRegionMetric):
     REQUIRED_PARSER = BombermanPocketParser
 
     def start(self):
-        self.kinds = {"area_intro": "area_intro_strip"}
+        self.kinds = {"area_intro": "area_intro_block"}
         super().start()
 
     def can_read_kind(self, current_frame: np.ndarray, kind: str) -> bool:

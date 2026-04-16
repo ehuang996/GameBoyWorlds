@@ -107,6 +107,7 @@ class BombermanPocketParser(BombermanParser):
 
     MULTI_TARGET_REGIONS = [
         ("area_intro_strip", 0, 0, 160, 20),
+        ("area_intro_block", 0, 0, 53, 20),
         ("pause_indicator", 96, 128, 64, 16),
         ("hud_heart", 54, 136, 10, 7),
         ("hud_bomb_count", 110, 136, 20, 7),
@@ -116,14 +117,13 @@ class BombermanPocketParser(BombermanParser):
 
     MULTI_TARGETS = {
         "area_intro_strip": [
-            "area_intro_forest",
-            "area_intro_ocean",
             "world_clear",
             "game_over",
             "jump_level_select",
             "jump_results",
             "jump_ranking",
         ],
+        "area_intro_block": ["area_intro_active"],
         "pause_indicator": ["pause_active"],
         "hud_heart": [],
         "hud_bomb_count": [],
@@ -146,11 +146,11 @@ class BombermanPocketParser(BombermanParser):
     def is_world_clear(self, current_screen: np.ndarray) -> bool:
         return self._matches(current_screen, "area_intro_strip", "world_clear")
 
-    def is_area_intro_forest(self, current_screen: np.ndarray) -> bool:
-        return self._matches(current_screen, "area_intro_strip", "area_intro_forest")
+    def is_area_intro_active(self, current_screen: np.ndarray) -> bool:
+        return self._matches(current_screen, "area_intro_block", "area_intro_active")
 
-    def is_area_intro_ocean(self, current_screen: np.ndarray) -> bool:
-        return self._matches(current_screen, "area_intro_strip", "area_intro_ocean")
+    def is_in_any_area_intro(self, current_screen: np.ndarray) -> bool:
+        return self.is_area_intro_active(current_screen)
 
     def is_in_forest_world(self, current_screen: np.ndarray) -> bool:
         return self._matches(current_screen, "zone_background", "in_forest_world")
@@ -167,11 +167,6 @@ class BombermanPocketParser(BombermanParser):
     def is_in_evil_world(self, current_screen: np.ndarray) -> bool:
         return self._matches(current_screen, "zone_background", "in_evil_world")
 
-    def is_in_any_area_intro(self, current_screen: np.ndarray) -> bool:
-        return (
-            self.is_area_intro_forest(current_screen)
-            or self.is_area_intro_ocean(current_screen)
-        )
 
 
 class BombermanQuestParser(BombermanParser):

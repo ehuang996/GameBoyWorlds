@@ -70,16 +70,10 @@ class PauseActiveTerminateMetric(RegionMatchTerminationMetric, TerminationMetric
     _TERMINATION_TARGET_NAME = "pause_active"
 
 
-class ForestAreaIntroTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
+class AreaIntroTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
     REQUIRED_PARSER = BombermanPocketParser
-    _TERMINATION_NAMED_REGION = "area_intro_strip"
-    _TERMINATION_TARGET_NAME = "area_intro_forest"
-
-
-class OceanAreaIntroTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
-    REQUIRED_PARSER = BombermanPocketParser
-    _TERMINATION_NAMED_REGION = "area_intro_strip"
-    _TERMINATION_TARGET_NAME = "area_intro_ocean"
+    _TERMINATION_NAMED_REGION = "area_intro_block"
+    _TERMINATION_TARGET_NAME = "area_intro_active"
 
 
 class WorldClearTerminateMetric(RegionMatchTerminationMetric, TerminationMetric):
