@@ -53,7 +53,7 @@ from gameboy_worlds.emulation.tracker import StateTracker
 
 GAME_TO_GB_NAME = {
     "bomberman_max": "BombermanMax.gbc",
-    "bomberman_pocket": "PocketBomberman.gbc",
+    "bomberman_pocket": "BombermanPocket.gbc",
     "bomberman_quest": "BombermanQuest.gbc",
 }
 
