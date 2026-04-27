@@ -2,26 +2,29 @@ from typing import Optional
 
 import numpy as np
 
-from gameboy_worlds.emulation.runes_of_virtue_1.parsers import RunesOfVirtue1Parser
+from gameboy_worlds.emulation.runes_of_virtue.parsers import (
+    AgentState,
+    RunesOfVirtueStateParser,
+)
 from gameboy_worlds.emulation.tracker import MetricGroup
 
 
-class CoreRunesOfVirtue1Metrics(MetricGroup):
+class CoreRunesOfVirtueMetrics(MetricGroup):
     """
-    Runes of Virtue 1 specific core metrics.
+    Runes of Virtue specific core metrics.
 
     Reports:
-    - agent_state: Current parser-derived agent state ("in_menu" or "free_roam").
+    - agent_state: The AgentState info. Is either FREE_ROAM or IN_MENU.
 
     Final Reports:
     - None
     """
 
-    NAME = "runes_of_virtue_1_core"
-    REQUIRED_PARSER = RunesOfVirtue1Parser
+    NAME = "runes_of_virtue_core"
+    REQUIRED_PARSER = RunesOfVirtueStateParser
 
     def reset(self, first: bool = False):
-        self.current_state = "free_roam"
+        self.current_state: AgentState = AgentState.FREE_ROAM
         self._previous_state = self.current_state
 
     def close(self):

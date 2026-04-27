@@ -35,7 +35,7 @@ def main(game, init_state, play_mode, headless, save_video):
         emulator = get_emulator(
             game=game, init_state=init_state, headless=False, save_video=save_video
         )
-        emulator.human_play()
+        emulator._dev_play()
     else:
         if headless != False:
             headless = True
