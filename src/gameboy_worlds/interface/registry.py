@@ -28,8 +28,10 @@ from gameboy_worlds.interface.sword_of_hope import registry as sword_of_hope_reg
 from gameboy_worlds.interface.deja_vu import registry as deja_vu_registry
 from gameboy_worlds.interface.hamtaro import registry as hamtaro_registry
 from gameboy_worlds.interface.harvest_moon import registry as harvest_moon_registry
+from gameboy_worlds.interface.runes_of_virtue import registry as runes_of_virtue_registry
 from gameboy_worlds.interface.harry_potter import registry as harry_potter_registry
 from gameboy_worlds.interface.bomberman import registry as bomberman_registry
+from gameboy_worlds.interface.survival_kids import registry as survival_kids_registry
 
 _project_parameters = load_parameters()
 
@@ -40,8 +42,10 @@ _game_registries = [
     sword_of_hope_registry,
     deja_vu_registry,
     harvest_moon_registry,
+    runes_of_virtue_registry,
     harry_potter_registry,
     bomberman_registry,
+    survival_kids_registry,
 ]
 
 AVAILABLE_ENVIRONMENTS: Dict[str, Dict[str, Type[Environment]]] = {}
