@@ -114,6 +114,14 @@ class SurvivalKidsParser(StateParser):
         ],
     }
 
+    _DARK_PIXEL_THRESHOLD = 24
+    _BRIGHT_PIXEL_THRESHOLD = 220
+    _DIALOGUE_BRIGHT_RATIO_THRESHOLD = 0.55
+    _MENU_DARK_RATIO_THRESHOLD = 0.08
+    _MENU_BRIGHT_RATIO_THRESHOLD = 0.18
+    _FULL_MENU_BRIGHT_RATIO_THRESHOLD = 0.75
+    _BOTTOM_MENU_DARK_RATIO_MAX = 0.025
+
     def __init__(
         self,
         pyboy,
@@ -168,11 +176,41 @@ class SurvivalKidsParser(StateParser):
 
         super().__init__(pyboy, parameters, named_screen_regions)
 
+    @staticmethod
+    def _as_gray(current_screen: np.ndarray) -> np.ndarray:
+        if current_screen.ndim == 3:
+            return current_screen[:, :, 0]
+        return current_screen
+
+    def _region_gray(self, current_screen: np.ndarray, region_name: str) -> np.ndarray:
+        return self.capture_named_region(current_screen, region_name)[:, :, 0]
+
+    def _has_text_box_like_region(self, region: np.ndarray) -> bool:
+        dark_ratio = np.mean(region <= self._DARK_PIXEL_THRESHOLD)
+        bright_ratio = np.mean(region >= self._BRIGHT_PIXEL_THRESHOLD)
+        return (
+            bright_ratio >= self._DIALOGUE_BRIGHT_RATIO_THRESHOLD
+            and dark_ratio >= 0.02
+        )
+
     def is_in_dialogue(self, current_screen: np.ndarray) -> bool:
-        return False
+        dialogue_area = self._region_gray(current_screen, "dialogue_area")
+        return self._has_text_box_like_region(dialogue_area)
 
     def is_in_menu(self, current_screen: np.ndarray) -> bool:
-        return False
+        screen = self._as_gray(current_screen)
+        top_area = screen[:96, :]
+        bottom_dialogue = self._region_gray(current_screen, "dialogue_area")
+        top_dark_ratio = np.mean(top_area <= self._DARK_PIXEL_THRESHOLD)
+        top_bright_ratio = np.mean(top_area >= self._BRIGHT_PIXEL_THRESHOLD)
+        bottom_dark_ratio = np.mean(bottom_dialogue <= self._DARK_PIXEL_THRESHOLD)
+        if top_bright_ratio >= self._FULL_MENU_BRIGHT_RATIO_THRESHOLD:
+            return True
+        return (
+            top_dark_ratio >= self._MENU_DARK_RATIO_THRESHOLD
+            and top_bright_ratio >= self._MENU_BRIGHT_RATIO_THRESHOLD
+            and bottom_dark_ratio <= self._BOTTOM_MENU_DARK_RATIO_MAX
+        )
 
     def get_agent_state(self, current_screen: np.ndarray) -> AgentState:
         if self.is_in_menu(current_screen):
