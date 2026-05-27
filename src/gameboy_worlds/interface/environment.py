@@ -181,6 +181,17 @@ class Environment(gym.Env, ABC):
         state_name = f"custom_{state_name}"
         self._emulator.delete_state(state_name=state_name)
 
+    def load_custom_state(self, state_name: str):
+        """
+        Loads a custom state of the emulator that was previously saved with `save_custom_state`.
+
+        Args:
+            state_name (str): Name of the state to load. This should be the name returned by `save_custom_state`.
+        """
+        state_name = f"custom_{state_name}"
+        self._emulator.set_init_state(state_name)
+        self.reset()  # reset to apply the new init state
+
     @abstractmethod
     def get_observation(
         self,
