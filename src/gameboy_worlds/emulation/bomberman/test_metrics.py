@@ -114,10 +114,19 @@ class HudChangedTerminateMetric(RegionChangedTerminationMetric, TerminationMetri
     _CHANGE_MAE_THRESHOLD = 10
 
 
-class HudPocketEnemyCountChangedTerminateMetric(RegionChangedTerminationMetric, TerminationMetric):
+class HudPocketEnemyKillTerminateMetric(RegionChangedTerminationMetric, TerminationMetric):
+    """Enemy count change detector that treats area intro (player died) as immediate failure."""
     REQUIRED_PARSER = BombermanPocketParser
     _CHANGED_NAMED_REGION = "hud_enemy_count"
     _CHANGE_MAE_THRESHOLD = 10
+
+    def determine_terminated(self, current_frame, recent_frames):
+        if self.state_parser.is_in_any_area_intro(current_frame):
+            return False
+        return super().determine_terminated(current_frame, recent_frames)
+
+    def determine_truncated(self, current_frame, recent_frames):
+        return self.state_parser.is_in_any_area_intro(current_frame)
 
 
 class HudBottomRightChangedTerminateMetric(
@@ -247,6 +256,18 @@ class ButtonRegionChangedTerminateMetric(RegionChangedTerminationMetric, Termina
 class BoxPickedUpTerminateMetric(RegionChangedTerminationMetric, TerminationMetric):
     REQUIRED_PARSER = BombermanQuestParser
     _CHANGED_NAMED_REGION = "box_detector"
+    _CHANGE_MAE_THRESHOLD = 10
+
+
+class CliffBoxPickedUpTerminateMetric(RegionChangedTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BombermanQuestParser
+    _CHANGED_NAMED_REGION = "cliff_box_detector"
+    _CHANGE_MAE_THRESHOLD = 10
+
+
+class HardSwitchActivatedTerminateMetric(RegionChangedTerminationMetric, TerminationMetric):
+    REQUIRED_PARSER = BombermanQuestParser
+    _CHANGED_NAMED_REGION = "hard_switch_detector"
     _CHANGE_MAE_THRESHOLD = 10
 
 

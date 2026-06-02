@@ -25,6 +25,7 @@ import numpy as np
 import gymnasium as gym
 import warnings
 from copy import deepcopy
+import uuid
 
 warnings.filterwarnings(
     "ignore",
@@ -148,6 +149,55 @@ class Environment(gym.Env, ABC):
         self._clock = None
         """ The pygame clock for rendering in 'human' mode. Initialized on first render call. """
         self.reset()  # I don't think this will cause issues, but should check that resetting here works well with gymnasium SyncVectorEnv final_obs construction.
+
+    def save_custom_state(self, state_name: str):
+        """
+        Saves a custom state of the emulator. This is useful for saving states during training or evaluation that can be loaded later for analysis or replay.
+
+        Args:
+            state_name (str): Name of the state to save. This will be saved as a .state file in the states directory.
+        """
+        # don't allow path like state names
+        if (
+            "/" in state_name
+            or "\\" in state_name
+            or " " in state_name
+            or not state_name.isalnum()
+        ):
+            log_error(
+                f"State name '{state_name}' is invalid. State names must be alphanumeric and cannot contain spaces or path characters.",
+                self._parameters,
+            )
+        state_name = state_name.replace(
+            "custom_", ""
+        )  # prevent users from accidentally adding the prefix and causing confusion about the actual saved state name.
+        state_name = f"custom_{state_name}"
+        self._emulator.save_state(state_name=state_name)
+        return state_name
+
+    def delete_custom_state(self, state_name: str):
+        """
+        Deletes a custom state of the emulator that was previously saved with `save_custom_state`.
+
+        Args:
+            state_name (str): Name of the state to delete. This should be the name returned by `save_custom_state`.
+        """
+        state_name = state_name.replace(
+            "custom_", ""
+        )  # prevent users from accidentally adding the prefix and causing confusion about the actual saved state name.
+        state_name = f"custom_{state_name}"
+        self._emulator.delete_state(state_name=state_name)
+
+    def load_custom_state(self, state_name: str):
+        """
+        Loads a custom state of the emulator that was previously saved with `save_custom_state`.
+
+        Args:
+            state_name (str): Name of the state to load. This should be the name returned by `save_custom_state`.
+        """
+        state_name = f"custom_{state_name}"
+        self._emulator.set_init_state(state_name)
+        self.reset()  # reset to apply the new init state
 
     @abstractmethod
     def get_observation(
@@ -415,7 +465,7 @@ class Environment(gym.Env, ABC):
             log_error(
                 "Cannot step environment because emulator indicates done. Please reset the environment.",
                 self._parameters,
-            )  # TODO: This triggered once during demos/benchmark runs, need to investigate why.
+            )
         start_state = self.get_info()
         self.before_step(action, kwargs)
         transition_states, action_success = self._controller.execute(action, **kwargs)
@@ -511,6 +561,61 @@ class Environment(gym.Env, ABC):
         :rtype: Tuple[Type[HighLevelAction] | None, dict | None]
         """
         return self._controller.string_to_high_level_action(input_str)
+
+    def _simulate(self, step_fn, *args, **kwargs):
+        """
+        Executes step_fn(*args, **kwargs) without permanently advancing state.
+
+        Saves the emulator's current state, runs the step, then restores both the
+        emulator's runtime state and its init_state pointer, and cleans up the
+        temporary save file.
+        """
+        original_init_state = self._emulator.init_state
+        tmp_name = uuid.uuid4().hex
+        self.save_custom_state(tmp_name)
+        try:
+            result = step_fn(*args, **kwargs)
+        finally:
+            self.load_custom_state(tmp_name)
+            self._emulator.init_state = original_init_state
+            self.delete_custom_state(tmp_name)
+        return result
+
+    def sim(
+        self, action: gym.spaces.OneOf
+    ) -> Tuple[gym.spaces.Space, float, bool, bool, Dict[str, Dict[str, Any]]]:
+        """Like `step` but reverts the emulator to its pre-step state afterward.
+
+        .. warning::
+            Because reversion requires a full emulator reset, all state tracker counters
+            and accumulated metrics (e.g. steps taken, episode rewards) will be reset as
+            a side effect. The returned info reflects the simulated step, not post-reset state.
+        """
+        return self._simulate(self.step, action)
+
+    def sim_str(
+        self, input_str: str
+    ) -> Tuple[gym.spaces.Space, float, bool, bool, Dict[str, Dict[str, Any]]]:
+        """Like `step_str` but reverts the emulator to its pre-step state afterward.
+
+        .. warning::
+            Because reversion requires a full emulator reset, all state tracker counters
+            and accumulated metrics (e.g. steps taken, episode rewards) will be reset as
+            a side effect. The returned info reflects the simulated step, not post-reset state.
+        """
+        return self._simulate(self.step_str, input_str)
+
+    def sim_high_level_action(
+        self, action: Type[HighLevelAction], **kwargs
+    ) -> Tuple[gym.spaces.Space, float, bool, bool, Dict[str, Dict[str, Any]]]:
+        """Like `step_high_level_action` but reverts the emulator to its pre-step state afterward.
+
+        .. warning::
+            Because reversion requires a full emulator reset, all state tracker counters
+            and accumulated metrics (e.g. steps taken, episode rewards) will be reset as
+            a side effect. The returned info reflects the simulated step, not post-reset state.
+        """
+        return self._simulate(self.step_high_level_action, action, **kwargs)
 
     def close(self):
         """
